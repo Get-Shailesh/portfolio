@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shailesh Khosare — Data Analyst</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <style>
+    /* ===================== CSS VARIABLES ===================== */
+    :root {
+      --bg: #f5f7ff;
+      --surface: #eef0fb;
+      --surface2: #e4e7f8;
+      --border: rgba(67, 97, 238, 0.15);
+      --accent: #4361ee;
+      --accent2: #7209b7;
+      --text: #0d1b4b;
+      --muted: #6272a4;
+      --card: #ffffff;
+    }
+
+    /* ===================== RESET ===================== */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Syne', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ===================== CUSTOM CURSOR ===================== */
+    * {
+      cursor: none !important;
+    }
+
+    .cursor {
+      width: 12px;
+      height: 12px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: -100px;
+      left: -100px;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 12px rgba(67, 97, 238, 0.8), 0 0 24px rgba(67, 97, 238, 0.4);
+      mix-blend-mode: normal;
+    }
+
+    .cursor.hovering {
+      width: 16px;
+      height: 16px;
+      background: var(--accent2);
+      box-shadow: 0 0 20px rgba(114, 9, 183, 0.9), 0 0 40px rgba(114, 9, 183, 0.4);
+    }
+
+    .cursor-ring {
+      width: 40px;
+      height: 40px;
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      position: fixed;
+      top: -100px;
+      left: -100px;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.25s ease, height 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
+      opacity: 0.65;
+      background: transparent;
+    }
+
+    .cursor-ring.hovering {
+      width: 56px;
+      height: 56px;
+      border-color: var(--accent2);
+      opacity: 0.45;
+      border-width: 1.5px;
+    }
+
+    .cursor-trail {
+      width: 6px;
+      height: 6px;
+      background: rgba(67, 97, 238, 0.4);
+      border-radius: 50%;
+      position: fixed;
+      top: -100px;
+      left: -100px;
+      pointer-events: none;
+      z-index: 99997;
+      transform: translate(-50%, -50%);
+    }
+
+    /* ===================== NOISE OVERLAY ===================== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    /* ===================== NAV ===================== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.4rem 4rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(245, 247, 255, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      transform: scaleX(1);
+    }
+
+    /* ===================== SECTIONS ===================== */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===================== HERO ===================== */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      gap: 4rem;
+      padding-top: 5rem;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1.hero-name {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 5.5vw, 5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+
+    h1.hero-name span {
+      color: var(--accent);
+      font-style: italic;
+    }
+
+    .hero-title {
+      font-size: 1.1rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-bottom: 1.8rem;
+      font-family: 'DM Mono', monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: #4a5580;
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      font-weight: 400;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 0.85rem 2rem;
+      background: var(--accent);
+      color: #ffffff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 4px;
+      cursor: none;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(67, 97, 238, 0.25);
+    }
+
+    .btn-secondary {
+      padding: 0.85rem 2rem;
+      background: transparent;
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 4px;
+      cursor: none;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Hero Right - 3D Canvas */
+    .hero-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .hero-3d-wrap {
+      position: relative;
+      width: 460px;
+      height: 460px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #heroCanvas {
+      display: block;
+      width: 460px;
+      height: 460px;
+      background: transparent;
+    }
+
+    .hero-stats {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hero-stats.left {
+      left: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .hero-stats.right {
+      right: -40px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .stat-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 8px;
+      padding: 0.7rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      white-space: nowrap;
+      animation: fadeInUp 0.6s ease backwards;
+    }
+
+    .stat-pill .val {
+      color: var(--accent);
+      font-size: 1.1rem;
+      display: block;
+      font-weight: 500;
+    }
+
+    .stat-pill .lbl {
+      color: var(--muted);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* ===================== ABOUT / SKILLS ===================== */
+    #about {
+      padding: 7rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .section-label::before {
+      content: '//';
+      opacity: 0.5;
+    }
+
+    h2.section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .about-text {
+      color: #4a5580;
+      line-height: 1.8;
+      font-size: 0.98rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .skill-item {}
+
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .skill-name {
+      color: var(--text);
+    }
+
+    .skill-pct {
+      color: var(--accent);
+    }
+
+    .skill-bar-bg {
+      height: 7px;
+      background: #dde2f5;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 0.4rem;
+    }
+
+    .skill-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4361ee, #7209b7);
+      border-radius: 99px;
+      width: 0%;
+      transition: width 1.4s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    /* ===================== TOOLS ===================== */
+    #tools {
+      padding: 5rem 4rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .tools-title-wrap {
+      margin-bottom: 3rem;
+    }
+
+    .tools-flex {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .tool-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem;
+      padding: 0.6rem 1.3rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 100px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+      cursor: none;
+    }
+
+    .tool-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .tool-tag.highlight {
+      border-color: rgba(249, 115, 22, 0.35);
+      color: var(--accent);
+    }
+
+    /* ===================== PROJECTS ===================== */
+    #projects {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .projects-header {
+      margin-bottom: 3rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 12px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+      cursor: none;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .project-card:hover {
+      border-color: rgba(67, 97, 238, 0.25);
+      transform: translateY(-4px);
+    }
+
+    .project-card:hover::before {
+      opacity: 1;
+    }
+
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      margin-bottom: 1.2rem;
+      display: inline-block;
+    }
+
+    .tag-sql {
+      background: rgba(67, 97, 238, 0.08);
+      color: var(--accent);
+    }
+
+    .tag-python {
+      background: rgba(114, 9, 183, 0.08);
+      color: var(--accent2);
+    }
+
+    .tag-bi {
+      background: rgba(99, 60, 210, 0.08);
+      color: #6a3cd2;
+    }
+
+    .tag-ml {
+      background: rgba(16, 140, 80, 0.08);
+      color: #108c50;
+    }
+
+    .project-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.3;
+    }
+
+    .project-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+
+    .project-meta span {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .project-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s;
+    }
+
+    .project-link:hover {
+      opacity: 0.7;
+    }
+
+    /* ===================== EXPERIENCE ===================== */
+    #experience {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5rem;
+    }
+
+    .timeline {
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      margin-left: 6px;
+    }
+
+    .timeline-item {
+      padding-left: 2.5rem;
+      padding-bottom: 3rem;
+      position: relative;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      left: 0;
+      top: 6px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+    }
+
+    .timeline-date {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+    }
+
+    .timeline-role {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .timeline-company {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: #4a5580;
+      line-height: 1.7;
+    }
+
+    .timeline-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+
+    .timeline-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.2rem 0.6rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 3px;
+      color: var(--muted);
+    }
+
+    /* ===================== CONTACT ===================== */
+    #contact {
+      padding: 7rem 4rem;
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    .contact-desc {
+      color: #4a5580;
+      font-size: 0.98rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+      padding: 1rem 1.2rem;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 8px;
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: none;
+    }
+
+    .contact-link-item:hover {
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .contact-icon {
+      font-size: 1.2rem;
+    }
+
+    .contact-link-text {
+      font-size: 0.9rem;
+    }
+
+    .contact-link-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Contact Form */
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .form-input,
+    .form-textarea {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 16px rgba(67, 97, 238, 0.06);
+      border-radius: 6px;
+      padding: 0.85rem 1rem;
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s;
+      cursor: none;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      padding: 2rem 4rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    /* ===================== SCROLL ANIMATIONS ===================== */
+    .fade-up {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-up:nth-child(2) {
+      transition-delay: 0.1s;
+    }
+
+    .fade-up:nth-child(3) {
+      transition-delay: 0.2s;
+    }
+
+    /* ===================== HERO ANIMATION ===================== */
+    .hero-left>* {
+      animation: heroFade 0.8s ease backwards;
+    }
+
+    .hero-left> :nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .hero-left> :nth-child(2) {
+      animation-delay: 0.25s;
+    }
+
+    .hero-left> :nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .hero-left> :nth-child(4) {
+      animation-delay: 0.55s;
+    }
+
+    .hero-left> :nth-child(5) {
+      animation-delay: 0.7s;
+    }
+
+    @keyframes heroFade {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 1.2rem 2rem;
+      }
+
+      #hero {
+        grid-template-columns: 1fr;
+        padding: 6rem 2rem 3rem;
+        gap: 3rem;
+      }
+
+      .hero-right {
+        display: none;
+      }
+
+      #about,
+      #contact {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+
+      #experience {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      #tools,
+      #projects,
+      #about,
+      #experience,
+      #contact {
+        padding: 5rem 2rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      footer {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">S.K.</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Data Analyst &amp; Aspiring Data Professional</div>
+      <h1 class="hero-name">Shailesh<br><span>Khosare</span></h1>
+      <div class="hero-title">// Python · SQL · Power BI · Machine Learning</div>
+      <p class="hero-desc">
+        B.Tech graduate in Electronics &amp; Telecommunication with hands-on experience
+        as a Data Analyst Intern at Techxica Pvt Ltd. I turn raw data into actionable
+        insights through visualization, statistical analysis, and machine learning —
+        actively seeking full-time Data Analyst opportunities.
+      </p>
+      <div class="hero-ctas">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-secondary">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-3d-wrap">
+        <canvas id="heroCanvas"></canvas>
+        <div class="hero-stats left">
+          <div class="stat-pill" style="animation-delay:1s">
+            <span class="val">6+</span>
+            <span class="lbl">Projects Built</span>
+          </div>
+          <div class="stat-pill" style="animation-delay:1.2s">
+            <span class="val">Fresher</span>
+            <span class="lbl">Open to Work</span>
+          </div>
+        </div>
+        <div class="hero-stats right">
+          <div class="stat-pill" style="animation-delay:1.4s">
+            <span class="val">B.Tech</span>
+            <span class="lbl">E&TC Engineering</span>
+          </div>
+          <div class="stat-pill" style="animation-delay:1.6s">
+            <span class="val">1</span>
+            <span class="lbl">Internship</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div>
+      <div class="section-label">About Me</div>
+      <h2 class="section-title">Turning data<br>into <em style="font-style:italic;color:var(--accent)">clarity</em></h2>
+      <p class="about-text">
+        I'm Shailesh Khosare, a Data Analyst with a B.Tech in Electronics &amp; Telecommunication
+        Engineering from Deogiri College of Engineering and Management Studies, Chhatrapati
+        Shambhaji Nagar. I gained hands-on experience as a Data Analyst Intern at Techxica Pvt Ltd,
+        where I worked on real-world data problems involving data cleaning, visualization, and reporting.
+      </p>
+      <p class="about-text">
+        Proficient in Python, SQL, Power BI, and machine learning, I enjoy transforming complex
+        datasets into clear, actionable insights. I am currently based in Chhatrapati Shambhaji
+        Nagar, India and actively looking for full-time Data Analyst roles where I can contribute,
+        grow, and make a real impact through data.
+      </p>
+    </div>
+    <div>
+      <div class="section-label">Core Skills</div>
+      <div class="skills-grid">
+        <!-- ✏️ CHANGE: Update skill names and percentages to reflect your actual proficiency -->
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">SQL / Database Design</span><span
+              class="skill-pct">95%</span></div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.95"></div>
+          </div>
+        </div>
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">Python (Pandas, NumPy, Matplotlib)</span><span
+              class="skill-pct">88%</span></div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.88"></div>
+          </div>
+        </div>
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">Power BI / Tableau</span><span class="skill-pct">92%</span>
+          </div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.92"></div>
+          </div>
+        </div>
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">Excel / Google Sheets</span><span
+              class="skill-pct">97%</span></div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.97"></div>
+          </div>
+        </div>
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">Machine Learning (Scikit-learn)</span><span
+              class="skill-pct">75%</span></div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.75"></div>
+          </div>
+        </div>
+        <div class="skill-item fade-up">
+          <div class="skill-header"><span class="skill-name">Data Storytelling &amp; Reporting</span><span
+              class="skill-pct">93%</span></div>
+          <div class="skill-bar-bg">
+            <div class="skill-bar-fill" data-width="0.93"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <div class="tools-title-wrap">
+      <div class="section-label" style="justify-content:center">Tech Stack</div>
+      <h2 class="section-title">Tools I Work With</h2>
+    </div>
+    <!-- ✏️ CHANGE: Add or remove tools from this list based on your actual stack -->
+    <div class="tools-flex">
+      <span class="tool-tag highlight">Python</span>
+      <span class="tool-tag highlight">SQL</span>
+      <span class="tool-tag highlight">Power BI</span>
+      <span class="tool-tag">Tableau</span>
+      <span class="tool-tag">Pandas</span>
+      <span class="tool-tag">NumPy</span>
+      <span class="tool-tag">Matplotlib</span>
+      <span class="tool-tag">Seaborn</span>
+      <span class="tool-tag">Jupyter Notebook</span>
+      <span class="tool-tag">Excel</span>
+      <span class="tool-tag">Google Sheets</span>
+      <span class="tool-tag">BigQuery</span>
+      <span class="tool-tag">PostgreSQL</span>
+      <span class="tool-tag">MySQL</span>
+      <span class="tool-tag">dbt</span>
+      <span class="tool-tag">Looker</span>
+      <span class="tool-tag">Scikit-learn</span>
+      <span class="tool-tag">Git / GitHub</span>
+      <span class="tool-tag">Airflow</span>
+      <span class="tool-tag">Notion</span>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="projects-header">
+      <div class="section-label">Featured Work</div>
+      <h2 class="section-title">Live Projects</h2>
+      <p style="color:var(--muted);font-size:0.95rem;margin-top:0.5rem;">Each card contains a real, interactive data
+        visualization — click tabs to explore.</p>
+    </div>
+    <div class="projects-grid" style="grid-template-columns:repeat(2,1fr);gap:2rem;">
+
+      <!-- PROJECT 1: Sales Trend Analysis -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <div>
+            <span class="project-tag tag-sql" style="margin-bottom:0.5rem">Python · Pandas</span>
+            <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">E-Commerce Sales Trend Analysis
+            </div>
+            <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">Monthly revenue trends across product
+              categories using real retail dataset. Identifies seasonal peaks and YoY growth patterns.</p>
+          </div>
+        </div>
+        <canvas id="salesChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>📦 Retail Dataset</span><span>📈 Chart.js</span><span>🐍 Pandas</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/sales-trend-analysis" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project1_sales_trend"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 2: Customer Churn -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+          <div>
+            <span class="project-tag tag-ml" style="margin-bottom:0.5rem">Machine Learning</span>
+            <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">Telecom Customer Churn Model
+            </div>
+            <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">Trained on IBM Telco dataset (7,043
+              customers). Random Forest achieved 87% accuracy. Top churn drivers visualized below.</p>
+          </div>
+        </div>
+        <canvas id="churnChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>🤖 Random Forest</span><span>📊 IBM Telco Dataset</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/customer-churn-prediction" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project2_churn_model"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 3: COVID Dashboard -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="margin-bottom:1rem;">
+          <span class="project-tag tag-bi" style="margin-bottom:0.5rem">Data Visualization</span>
+          <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">Global COVID-19 Tracker</div>
+          <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">7-day rolling average of cases across top 6
+            affected nations. Built using Our World in Data public dataset with 220k+ rows.</p>
+        </div>
+        <canvas id="covidChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>🌍 OWID Dataset</span><span>📊 220K+ rows</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/covid-19-global-tracker" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project3_covid_tracker"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 4: HR Attrition -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="margin-bottom:1rem;">
+          <span class="project-tag tag-python" style="margin-bottom:0.5rem">EDA · HR Analytics</span>
+          <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">IBM HR Attrition Analysis</div>
+          <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">Exploratory analysis of IBM's HR dataset
+            (1,470 employees). Attrition rate by department and job role — identifies where talent is lost.</p>
+        </div>
+        <canvas id="hrChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>👥 IBM HR Dataset</span><span>📉 1,470 records</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/hr-attrition-analysis" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project4_hr_attrition"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 5: Stock Market -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="margin-bottom:1rem;">
+          <span class="project-tag tag-sql" style="margin-bottom:0.5rem">Finance · Time Series</span>
+          <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">Stock Price Volatility Analysis
+          </div>
+          <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">Comparative price performance of FAANG
+            stocks over 12 months. Normalized to base 100 for fair comparison. Highlights volatility clusters.</p>
+        </div>
+        <canvas id="stockChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>📈 Yahoo Finance Data</span><span>⏱ 12-month series</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/stock-volatility-analysis" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project5_stock_analysis"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+      <!-- PROJECT 6: Marketing Funnel -->
+      <div class="project-card fade-up" style="padding:1.8rem;">
+        <div style="margin-bottom:1rem;">
+          <span class="project-tag tag-bi" style="margin-bottom:0.5rem">Marketing Analytics</span>
+          <div class="project-title" style="font-size:1.15rem;margin-bottom:0.3rem;">Marketing Funnel &amp; ROI Analysis
+          </div>
+          <p class="project-desc" style="font-size:0.82rem;margin-bottom:0;">Channel-wise conversion funnel from
+            impressions to purchase. ROI calculated per channel. Social highest reach; Email highest conversion rate.
+          </p>
+        </div>
+        <canvas id="funnelChart" height="180"></canvas>
+        <div class="project-meta" style="margin-top:1rem;">
+          <span>📣 6 Channels</span><span>💰 ROI Analysis</span>
+        </div>
+        <div class="project-links">
+          <a href="https://www.kaggle.com/code/shaileshkhosare/marketing-funnel-roi" target="_blank"
+            class="project-link">→ Kaggle Notebook</a>
+          <a href="https://github.com/Get-Shailesh/data-analyst-portfolio/tree/main/projects/project6_marketing_funnel"
+            target="_blank" class="project-link">→ GitHub</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CHART.JS CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+    (function () {
+      // Shared config
+      const accent = '#4361ee';
+      const accent2 = '#7209b7';
+      const muted = '#6272a4';
+      const grid = 'rgba(67,97,238,0.08)';
+      const baseFont = { family: "'DM Mono', monospace", size: 10 };
+      const axisStyle = { color: muted, font: baseFont };
+
+      // ── PROJECT 1: Sales Trend ──────────────────────────────────────
+      new Chart(document.getElementById('salesChart'), {
+        type: 'line',
+        data: {
+          labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+          datasets: [
+            {
+              label: 'Electronics',
+              data: [42000, 38500, 45000, 51000, 48000, 55000, 61000, 58000, 63000, 72000, 89000, 104000],
+              borderColor: accent, backgroundColor: 'rgba(67,97,238,0.08)',
+              fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2
+            },
+            {
+              label: 'Clothing',
+              data: [28000, 31000, 35000, 29000, 33000, 38000, 41000, 44000, 39000, 48000, 62000, 78000],
+              borderColor: accent2, backgroundColor: 'rgba(114,9,183,0.06)',
+              fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2
+            },
+            {
+              label: 'Home & Garden',
+              data: [19000, 17500, 24000, 31000, 36000, 42000, 39000, 35000, 28000, 22000, 19000, 21000],
+              borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.05)',
+              fill: true, tension: 0.4, pointRadius: 3, borderWidth: 2
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { labels: { color: muted, font: baseFont, boxWidth: 12 } } },
+          scales: {
+            x: { ticks: axisStyle, grid: { color: grid } },
+            y: { ticks: { ...axisStyle, callback: v => '₹' + (v / 1000).toFixed(0) + 'k' }, grid: { color: grid } }
+          }
+        }
+      });
+
+      // ── PROJECT 2: Churn Feature Importance ─────────────────────────
+      new Chart(document.getElementById('churnChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Contract Type', 'Tenure', 'Monthly Charges', 'Tech Support', 'Internet Service', 'Payment Method', 'Paperless Billing'],
+          datasets: [{
+            label: 'Feature Importance Score',
+            data: [0.31, 0.24, 0.18, 0.09, 0.08, 0.06, 0.04],
+            backgroundColor: [
+              'rgba(67,97,238,0.85)', 'rgba(67,97,238,0.7)', 'rgba(67,97,238,0.6)',
+              'rgba(114,9,183,0.55)', 'rgba(114,9,183,0.45)', 'rgba(114,9,183,0.35)', 'rgba(114,9,183,0.25)'
+            ],
+            borderRadius: 4, borderSkipped: false
+          }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: { ticks: { ...axisStyle, callback: v => (v * 100).toFixed(0) + '%' }, grid: { color: grid } },
+            y: { ticks: { color: muted, font: { ...baseFont, size: 9 } }, grid: { display: false } }
+          }
+        }
+      });
+
+      // ── PROJECT 3: COVID Rolling Average ────────────────────────────
+      const months = ['Jan 22', 'Feb 22', 'Mar 22', 'Apr 22', 'May 22', 'Jun 22', 'Jul 22', 'Aug 22', 'Sep 22', 'Oct 22', 'Nov 22', 'Dec 22'];
+      new Chart(document.getElementById('covidChart'), {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            { label: 'USA', data: [780000, 520000, 108000, 52000, 88000, 110000, 124000, 96000, 45000, 38000, 55000, 62000], borderColor: '#4361ee', tension: 0.4, pointRadius: 2, borderWidth: 2, fill: false },
+            { label: 'India', data: [340000, 190000, 42000, 18000, 12000, 14000, 20000, 8000, 6000, 5000, 7000, 9000], borderColor: '#f59e0b', tension: 0.4, pointRadius: 2, borderWidth: 2, fill: false },
+            { label: 'UK', data: [180000, 65000, 38000, 14000, 18000, 24000, 30000, 22000, 12000, 10000, 15000, 18000], borderColor: '#10b981', tension: 0.4, pointRadius: 2, borderWidth: 2, fill: false },
+            { label: 'France', data: [310000, 220000, 148000, 62000, 30000, 72000, 95000, 48000, 24000, 20000, 34000, 42000], borderColor: '#ef4444', tension: 0.4, pointRadius: 2, borderWidth: 2, fill: false },
+            { label: 'Germany', data: [160000, 240000, 220000, 90000, 22000, 48000, 62000, 40000, 18000, 82000, 120000, 78000], borderColor: '#8b5cf6', tension: 0.4, pointRadius: 2, borderWidth: 2, fill: false }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { labels: { color: muted, font: baseFont, boxWidth: 10 } } },
+          scales: {
+            x: { ticks: axisStyle, grid: { color: grid } },
+            y: { ticks: { ...axisStyle, callback: v => (v / 1000).toFixed(0) + 'k' }, grid: { color: grid } }
+          }
+        }
+      });
+
+      // ── PROJECT 4: HR Attrition by Department ───────────────────────
+      new Chart(document.getElementById('hrChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Sales', 'HR', 'R&D', 'Marketing', 'Finance', 'Support', 'IT', 'Legal'],
+          datasets: [
+            {
+              label: 'Stayed',
+              data: [174, 51, 828, 89, 57, 73, 120, 34],
+              backgroundColor: 'rgba(67,97,238,0.75)', borderRadius: 3
+            },
+            {
+              label: 'Attrited',
+              data: [92, 29, 133, 18, 11, 19, 32, 9],
+              backgroundColor: 'rgba(239,68,68,0.7)', borderRadius: 3
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { labels: { color: muted, font: baseFont, boxWidth: 10 } } },
+          scales: {
+            x: { ticks: { color: muted, font: { ...baseFont, size: 9 } }, stacked: false, grid: { color: grid } },
+            y: { ticks: axisStyle, grid: { color: grid } }
+          }
+        }
+      });
+
+      // ── PROJECT 5: Stock Performance ─────────────────────────────────
+      const wks = ['W1', 'W3', 'W5', 'W7', 'W9', 'W11', 'W13', 'W15', 'W17', 'W19', 'W21', 'W23', 'W25', 'W27', 'W29', 'W31', 'W33', 'W35', 'W37', 'W39', 'W41', 'W43', 'W45', 'W47', 'W49', 'W51'];
+      new Chart(document.getElementById('stockChart'), {
+        type: 'line',
+        data: {
+          labels: wks,
+          datasets: [
+            { label: 'AAPL', data: [100, 103, 107, 104, 110, 115, 112, 118, 122, 119, 125, 128, 124, 130, 133, 138, 135, 142, 139, 145, 149, 146, 152, 155, 151, 158], borderColor: '#4361ee', pointRadius: 0, borderWidth: 2, tension: 0.3 },
+            { label: 'GOOGL', data: [100, 98, 102, 99, 105, 108, 104, 109, 113, 110, 106, 103, 107, 111, 115, 118, 114, 120, 117, 122, 125, 121, 118, 123, 127, 130], borderColor: '#f59e0b', pointRadius: 0, borderWidth: 2, tension: 0.3 },
+            { label: 'MSFT', data: [100, 104, 108, 112, 109, 115, 119, 122, 118, 124, 128, 132, 128, 135, 139, 143, 140, 146, 150, 154, 151, 157, 161, 158, 163, 168], borderColor: '#10b981', pointRadius: 0, borderWidth: 2, tension: 0.3 },
+            { label: 'META', data: [100, 95, 91, 88, 85, 90, 86, 82, 79, 84, 80, 77, 81, 85, 89, 93, 90, 87, 91, 95, 98, 103, 107, 111, 115, 120], borderColor: '#ef4444', pointRadius: 0, borderWidth: 2, tension: 0.3 },
+            { label: 'AMZN', data: [100, 97, 101, 105, 102, 98, 95, 99, 103, 107, 104, 109, 113, 110, 115, 119, 116, 121, 125, 122, 127, 131, 128, 133, 137, 142], borderColor: '#8b5cf6', pointRadius: 0, borderWidth: 2, tension: 0.3 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { labels: { color: muted, font: baseFont, boxWidth: 10 } } },
+          scales: {
+            x: { ticks: { color: muted, font: { ...baseFont, size: 9 }, maxRotation: 0, maxTicksLimit: 8 }, grid: { color: grid } },
+            y: { ticks: { ...axisStyle, callback: v => v }, grid: { color: grid } }
+          }
+        }
+      });
+
+      // ── PROJECT 6: Marketing Funnel ──────────────────────────────────
+      new Chart(document.getElementById('funnelChart'), {
+        type: 'bar',
+        data: {
+          labels: ['Social Media', 'Search (SEO)', 'Email', 'Paid Ads', 'Referral', 'Direct'],
+          datasets: [
+            { label: 'Impressions (k)', data: [980, 720, 310, 860, 240, 190], backgroundColor: 'rgba(67,97,238,0.3)', borderRadius: 3 },
+            { label: 'Clicks (k)', data: [88, 115, 74, 129, 52, 43], backgroundColor: 'rgba(67,97,238,0.6)', borderRadius: 3 },
+            { label: 'Conversions', data: [1240, 2180, 2890, 1980, 1640, 1120], backgroundColor: 'rgba(114,9,183,0.7)', borderRadius: 3 }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: true,
+          plugins: { legend: { labels: { color: muted, font: baseFont, boxWidth: 10 } } },
+          scales: {
+            x: { ticks: { color: muted, font: { ...baseFont, size: 9 } }, grid: { color: grid } },
+            y: { ticks: axisStyle, grid: { color: grid } }
+          }
+        }
+      });
+
+    })();
+  </script>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div>
+      <div class="section-label">Career</div>
+      <h2 class="section-title">Work<br>Experience</h2>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">Sep 2025 — Present</div>
+        <div class="timeline-role">Data Analyst Intern</div>
+        <div class="timeline-company">Techxica Pvt Ltd · Internship · Chhatrapati Shambhaji Nagar</div>
+        <p class="timeline-desc">
+          Working on real-world data projects involving data collection, cleaning, and analysis.
+          Building dashboards and reports to support business decision-making. Applying Python
+          and SQL to extract meaningful insights from large datasets and present findings to stakeholders.
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">Python</span>
+          <span class="timeline-tag">SQL</span>
+          <span class="timeline-tag">Power BI</span>
+          <span class="timeline-tag">Excel</span>
+          <span class="timeline-tag">Data Visualization</span>
+        </div>
+      </div>
+
+      <div class="timeline-item fade-up">
+        <div class="timeline-dot"></div>
+        <div class="timeline-date">2021 — 2025</div>
+        <div class="timeline-role">B.Tech — Electronics &amp; Telecommunication Engineering</div>
+        <div class="timeline-company">Deogiri College of Engineering &amp; Management Studies · Chhatrapati Shambhaji
+          Nagar</div>
+        <p class="timeline-desc">
+          Graduated with a B.Tech in Electronics &amp; Telecommunication Engineering. Developed
+          strong analytical and problem-solving skills. Pursued self-learning in Python, data
+          analysis, and machine learning alongside core engineering subjects.
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">B.Tech</span>
+          <span class="timeline-tag">E&TC</span>
+          <span class="timeline-tag">Python</span>
+          <span class="timeline-tag">Data Analysis</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div>
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">Let's work<br><span style="color:var(--accent);font-style:italic">together</span></h2>
+      <p class="contact-desc">
+        I am actively looking for full-time Data Analyst opportunities. If you have a role,
+        project, or collaboration in mind — I would love to connect and have a conversation!
+      </p>
+      <div class="contact-links">
+        <a href="#" onclick="window.location.href='mai'+'lto:'+'shaileshkhosare88'+'@'+'gmail.com'; return false;"
+          class="contact-link-item">
+          <span class="contact-icon">✉️</span>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-text">shaileshkhosare88@gmail.com</div>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/shailesh-khosare/" class="contact-link-item" target="_blank">
+          <span class="contact-icon">💼</span>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-text">linkedin.com/in/shailesh-khosare</div>
+          </div>
+        </a>
+        <a href="https://github.com/Get-Shailesh" class="contact-link-item" target="_blank">
+          <span class="contact-icon">🐙</span>
+          <div>
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-text">github.com/Get-Shailesh</div>
+          </div>
+        </a>
+        <a href="https://www.kaggle.com/shaileshkhosare" class="contact-link-item" target="_blank">
+          <span class="contact-icon">📊</span>
+          <div>
+            <div class="contact-link-label">Kaggle</div>
+            <div class="contact-link-text">kaggle.com/shaileshkhosare</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Contact Form via Formspree -->
+    <div>
+      <div class="section-label">Send a Message</div>
+
+      <div class="contact-form" id="contactForm">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input type="text" id="senderName" name="name" class="form-input" placeholder="John Doe" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" id="senderEmail" name="email" class="form-input" placeholder="john@example.com"
+            required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea id="senderMessage" name="message" class="form-textarea"
+            placeholder="Tell me about your project or opportunity..." required></textarea>
+        </div>
+        <button id="submitBtn" onclick="sendForm(event)" class="btn-primary"
+          style="align-self:flex-start; cursor:pointer;">
+          Send Message →
+        </button>
+      </div>
+
+      <!-- ✅ SUCCESS MESSAGE -->
+      <div id="formSuccess"
+        style="display:none; background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:1.5rem 1.8rem;">
+        <div style="font-size:1.4rem; margin-bottom:0.4rem;">✅</div>
+        <div style="font-family:'DM Mono',monospace; font-size:0.85rem; color:#10b981; font-weight:600;">Message sent
+          successfully!</div>
+        <div style="font-size:0.82rem; color:var(--muted); margin-top:0.3rem;">Thanks for reaching out. I'll reply
+          within 24 hours.</div>
+      </div>
+
+      <!-- ❌ ERROR MESSAGE -->
+      <div id="formError"
+        style="display:none; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.25); border-radius:10px; padding:1.2rem 1.5rem;">
+        <div style="font-family:'DM Mono',monospace; font-size:0.82rem; color:#ef4444;">⚠️ Something went wrong. Please
+          email me directly at shaileshkhosare88@gmail.com</div>
+      </div>
+    </div>
+
+    <script>
+      async function sendForm(e) {
+        e.preventDefault();
+        const name = document.getElementById('senderName').value.trim();
+        const email = document.getElementById('senderEmail').value.trim();
+        const message = document.getElementById('senderMessage').value.trim();
+        const btn = document.getElementById('submitBtn');
+        const errDiv = document.getElementById('formError');
+
+        if (!name || !email || !message) {
+          alert('Please fill in all fields.');
+          return;
+        }
+
+        btn.textContent = 'Sending...';
+        btn.disabled = true;
+        errDiv.style.display = 'none';
+
+        try {
+          const res = await fetch('https://formspree.io/f/xnjgjvkq', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ name, email, message })
+          });
+
+          const data = await res.json();
+
+          if (res.ok) {
+            document.getElementById('contactForm').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+          } else {
+            throw new Error(data?.errors?.[0]?.message || 'Failed');
+          }
+        } catch (err) {
+          errDiv.style.display = 'block';
+          errDiv.querySelector('div').textContent = '⚠️ Error: ' + (err.message === 'Failed to fetch'
+            ? 'Please host the site online (Netlify) for the form to work.'
+            : err.message);
+          btn.textContent = 'Send Message →';
+          btn.disabled = false;
+        }
+      }
+    </script>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>© 2025 Shailesh Khosare — Data Analyst</span>
+    <span style="color:var(--accent)">Built with ♥ &amp; data</span>
+    <span>Chhatrapati Shambhaji Nagar, India</span>
+  </footer>
+
+  <!-- THREE.JS + GLOBE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('heroCanvas');
+      const W = 460, H = 460;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.setClearColor(0x000000, 0);
+      renderer.shadowMap.enabled = true;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+      camera.position.z = 3.2;
+
+      // ── STARFIELD ─────────────────────────────────────────────────
+      const starVerts = [];
+      for (let i = 0; i < 1800; i++) {
+        const r = 8 + Math.random() * 4;
+        const t = Math.random() * Math.PI * 2;
+        const p = Math.acos(2 * Math.random() - 1);
+        starVerts.push(r * Math.sin(p) * Math.cos(t), r * Math.sin(p) * Math.sin(t), r * Math.cos(p));
+      }
+      const starGeo = new THREE.BufferGeometry();
+      starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVerts, 3));
+      scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.03, transparent: true, opacity: 0.7 })));
+
+      // ── LIGHTING ──────────────────────────────────────────────────
+      scene.add(new THREE.AmbientLight(0x334466, 1.2));
+      const sunLight = new THREE.DirectionalLight(0x88aaff, 2.5);
+      sunLight.position.set(5, 3, 5);
+      scene.add(sunLight);
+      const rimLight = new THREE.DirectionalLight(0x4361ee, 0.8);
+      rimLight.position.set(-4, -2, -3);
+      scene.add(rimLight);
+
+      // ── EARTH GLOBE using NASA texture ────────────────────────────
+      const earthGeo = new THREE.SphereGeometry(1.3, 64, 64);
+      const texLoader = new THREE.TextureLoader();
+
+      // NASA Blue Marble texture (public domain)
+      const earthTex = texLoader.load(
+        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_atmos_2048.jpg',
+        () => renderer.render(scene, camera)
+      );
+      const bumpTex = texLoader.load(
+        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_normal_2048.jpg'
+      );
+      const specTex = texLoader.load(
+        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_specular_2048.jpg'
+      );
+
+      const earthMat = new THREE.MeshPhongMaterial({
+        map: earthTex,
+        bumpMap: bumpTex,
+        bumpScale: 0.05,
+        specularMap: specTex,
+        specular: new THREE.Color(0x4466aa),
+        shininess: 18
+      });
+      const earth = new THREE.Mesh(earthGeo, earthMat);
+      scene.add(earth);
+
+      // ── ATMOSPHERE GLOW ───────────────────────────────────────────
+      const atmosGeo = new THREE.SphereGeometry(1.36, 64, 64);
+      const atmosMat = new THREE.MeshPhongMaterial({
+        color: 0x4488ff,
+        transparent: true,
+        opacity: 0.08,
+        side: THREE.FrontSide
+      });
+      scene.add(new THREE.Mesh(atmosGeo, atmosMat));
+
+      // Outer halo ring
+      const haloGeo = new THREE.SphereGeometry(1.44, 64, 64);
+      const haloMat = new THREE.MeshBasicMaterial({
+        color: 0x2255cc,
+        transparent: true,
+        opacity: 0.04,
+        side: THREE.BackSide
+      });
+      scene.add(new THREE.Mesh(haloGeo, haloMat));
+
+      // ── CLOUDS layer ──────────────────────────────────────────────
+      const cloudTex = texLoader.load(
+        'https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/planets/earth_clouds_1024.png'
+      );
+      const clouds = new THREE.Mesh(
+        new THREE.SphereGeometry(1.32, 64, 64),
+        new THREE.MeshPhongMaterial({ map: cloudTex, transparent: true, opacity: 0.35, depthWrite: false })
+      );
+      scene.add(clouds);
+
+      // ── HELPER: lat/lon → 3D vector ───────────────────────────────
+      function ll(lat, lon, r) {
+        const phi = (90 - lat) * (Math.PI / 180);
+        const theta = (lon + 180) * (Math.PI / 180);
+        return new THREE.Vector3(
+          -r * Math.sin(phi) * Math.cos(theta),
+          r * Math.cos(phi),
+          r * Math.sin(phi) * Math.sin(theta)
+        );
+      }
+
+      // ── DATA NODES (city dots) ────────────────────────────────────
+      const cities = [
+        { lat: 40.7, lon: -74.0 }, { lat: 51.5, lon: -0.1 }, { lat: 48.8, lon: 2.3 },
+        { lat: 35.6, lon: 139.7 }, { lat: 19.0, lon: 72.8 }, { lat: 31.2, lon: 121.5 },
+        { lat: -33.8, lon: 151.2 }, { lat: 37.7, lon: -122.4 }, { lat: 55.7, lon: 37.6 },
+        { lat: 1.3, lon: 103.8 }, { lat: -23.5, lon: -46.6 }, { lat: 30.0, lon: 31.2 },
+        { lat: 43.6, lon: -79.4 }, { lat: 52.5, lon: 13.4 }, { lat: 28.6, lon: 77.2 },
+        { lat: 41.0, lon: 28.9 }, { lat: -34.6, lon: -58.4 }, { lat: 22.3, lon: 114.2 },
+        { lat: 59.9, lon: 10.7 }, { lat: -26.2, lon: 28.0 }
+      ];
+
+      const cityVecs = cities.map(c => ll(c.lat, c.lon, 1.31));
+      const nodeGroup = new THREE.Group();
+      const pulseRings = [];
+
+      cityVecs.forEach((pos, i) => {
+        // Glowing dot
+        const dot = new THREE.Mesh(
+          new THREE.SphereGeometry(0.022, 8, 8),
+          new THREE.MeshBasicMaterial({ color: i % 3 === 0 ? 0x00d4ff : i % 3 === 1 ? 0x4361ee : 0xaa44ff })
+        );
+        dot.position.copy(pos);
+        nodeGroup.add(dot);
+
+        // Pulse ring
+        const ring = new THREE.Mesh(
+          new THREE.RingGeometry(0.032, 0.048, 20),
+          new THREE.MeshBasicMaterial({ color: 0x00d4ff, transparent: true, opacity: 0.7, side: THREE.DoubleSide })
+        );
+        ring.position.copy(pos);
+        ring.lookAt(0, 0, 0);
+        ring.userData.phase = i * 0.38;
+        pulseRings.push(ring);
+        nodeGroup.add(ring);
+      });
+      scene.add(nodeGroup);
+
+      // ── CURVED DATA ARCS ──────────────────────────────────────────
+      const arcGroup = new THREE.Group();
+      const moveDots = [];
+
+      const conns = [
+        [0, 1], [1, 2], [0, 7], [3, 9], [4, 9], [5, 3], [6, 9], [0, 12],
+        [1, 13], [2, 15], [4, 14], [8, 1], [10, 0], [11, 15], [17, 5],
+        [16, 10], [18, 1], [19, 11], [0, 4], [3, 17], [12, 2], [6, 3]
+      ];
+
+      conns.forEach(([a, b]) => {
+        const p1 = cityVecs[a], p2 = cityVecs[b];
+        if (!p1 || !p2) return;
+        const mid = p1.clone().add(p2).multiplyScalar(0.5);
+        mid.normalize().multiplyScalar(1.31 + p1.distanceTo(p2) * 0.5);
+
+        const curve = new THREE.QuadraticBezierCurve3(p1, mid, p2);
+        const points = curve.getPoints(60);
+        const geo = new THREE.BufferGeometry().setFromPoints(points);
+        const dist = p1.distanceTo(p2);
+        const col = dist > 2.2 ? 0x00d4ff : dist > 1.4 ? 0x4361ee : 0xaa44ff;
+
+        arcGroup.add(new THREE.Line(geo, new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: 0.55 })));
+
+        // Travelling dot
+        const td = new THREE.Mesh(
+          new THREE.SphereGeometry(0.018, 6, 6),
+          new THREE.MeshBasicMaterial({ color: 0x00eeff })
+        );
+        td.userData = { curve, t: Math.random(), speed: 0.004 + Math.random() * 0.004 };
+        moveDots.push(td);
+        arcGroup.add(td);
+      });
+      scene.add(arcGroup);
+
+      // ── DRAG ROTATION ─────────────────────────────────────────────
+      let drag = false, px = 0, py = 0;
+      let rotY = 2.0, rotX = 0.3, spin = true;
+
+      canvas.addEventListener('mousedown', e => { drag = true; spin = false; px = e.clientX; py = e.clientY; });
+      window.addEventListener('mouseup', () => { drag = false; setTimeout(() => spin = true, 2500); });
+      window.addEventListener('mousemove', e => {
+        if (!drag) return;
+        rotY += (e.clientX - px) * 0.006;
+        rotX = Math.max(-0.9, Math.min(0.9, rotX + (e.clientY - py) * 0.005));
+        px = e.clientX; py = e.clientY;
+      });
+      canvas.style.cursor = 'grab';
+      canvas.addEventListener('mousedown', () => canvas.style.cursor = 'grabbing');
+      window.addEventListener('mouseup', () => canvas.style.cursor = 'grab');
+
+      // ── ANIMATE ───────────────────────────────────────────────────
+      let clock = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        clock += 0.012;
+
+        if (spin) rotY += 0.003;
+
+        earth.rotation.y = rotY;
+        earth.rotation.x = rotX;
+        clouds.rotation.y = rotY + clock * 0.04;
+        clouds.rotation.x = rotX;
+        nodeGroup.rotation.y = rotY;
+        nodeGroup.rotation.x = rotX;
+        arcGroup.rotation.y = rotY;
+        arcGroup.rotation.x = rotX;
+
+        // Pulse rings
+        pulseRings.forEach(ring => {
+          const s = 1 + 0.6 * Math.abs(Math.sin(clock + ring.userData.phase));
+          ring.scale.setScalar(s);
+          ring.material.opacity = 0.7 - 0.5 * Math.abs(Math.sin(clock + ring.userData.phase));
+        });
+
+        // Move arc dots
+        moveDots.forEach(d => {
+          d.userData.t = (d.userData.t + d.userData.speed) % 1;
+          d.position.copy(d.userData.curve.getPoint(d.userData.t));
+        });
+
+        renderer.render(scene, camera);
+      }
+      animate();
+    })();
+  </script>
+
+  <script>
+    // ── PROFESSIONAL CURSOR ──────────────────────────────────────────
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    const trail = document.getElementById('cursorTrail');
+
+    let mouseX = 0, mouseY = 0;
+    let trailX = -100, trailY = -100;
+    let cursorVisible = false;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Show cursor on first move
+      if (!cursorVisible) {
+        cursorVisible = true;
+        cursor.style.opacity = '1';
+        ring.style.opacity = '0.65';
+        trail.style.opacity = '1';
+      }
+
+      cursor.style.left = mouseX + 'px';
+      cursor.style.top = mouseY + 'px';
+      ring.style.left = mouseX + 'px';
+      ring.style.top = mouseY + 'px';
+    });
+
+    // Smooth trail using rAF
+    function animateTrail() {
+      trailX += (mouseX - trailX) * 0.10;
+      trailY += (mouseY - trailY) * 0.10;
+      trail.style.left = trailX + 'px';
+      trail.style.top = trailY + 'px';
+      requestAnimationFrame(animateTrail);
+    }
+    animateTrail();
+
+    // Hover — grow ring + change to purple
+    document.querySelectorAll('a, button, .project-card, .tool-tag, .contact-link-item, .btn-primary, .btn-secondary, input, textarea').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.classList.add('hovering');
+        ring.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      });
+    });
+
+    // Click — squeeze effect
+    document.addEventListener('mousedown', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(0.6)';
+      ring.style.transform = 'translate(-50%,-50%) scale(0.85)';
+    });
+    document.addEventListener('mouseup', () => {
+      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
+      ring.style.transform = 'translate(-50%,-50%) scale(1)';
+    });
+
+    // Hide when leaving window
+    document.addEventListener('mouseleave', () => {
+      cursor.style.opacity = '0';
+      ring.style.opacity = '0';
+      trail.style.opacity = '0';
+    });
+    document.addEventListener('mouseenter', () => {
+      cursor.style.opacity = '1';
+      ring.style.opacity = '0.65';
+      trail.style.opacity = '1';
+    });
+
+    // ── SKILL BARS ───────────────────────────────────────────────────
+    const skillWidths = { 0: '95%', 1: '88%', 2: '92%', 3: '97%', 4: '75%', 5: '93%' };
+    function animateSkillBars() {
+      document.querySelectorAll('.skill-bar-fill').forEach((bar, i) => {
+        setTimeout(() => { bar.style.width = skillWidths[i] || '80%'; }, i * 180 + 400);
+      });
+    }
+    window.addEventListener('load', animateSkillBars);
+    const skillObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) animateSkillBars(); });
+    }, { threshold: 0.3 });
+    const skillSection = document.querySelector('.skills-grid');
+    if (skillSection) skillObserver.observe(skillSection);
+
+    // ── SCROLL ANIMATIONS ────────────────────────────────────────────
+    const fadeObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+  </script>
+</body>
+
+</html>
